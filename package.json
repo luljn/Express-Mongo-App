@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/luljn/Express-Mongo-App/issues"
   },
-  "homepage": "https://github.com/luljn/Express-Mongo-App#readme"
+  "homepage": "https://github.com/luljn/Express-Mongo-App#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
 }
