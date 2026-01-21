@@ -1,0 +1,19 @@
+{
+  "name": "express-mongo-app",
+  "version": "1.0.0",
+  "description": "Backend code for the express mongo app ",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luljn/Express-Mongo-App.git"
+  },
+  "author": "luljn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/luljn/Express-Mongo-App/issues"
+  },
+  "homepage": "https://github.com/luljn/Express-Mongo-App#readme"
+}
