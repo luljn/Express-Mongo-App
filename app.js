@@ -1,27 +1,27 @@
 const express = require('express');
 const app = express();
 
-// Middleware 1 : enregistre "Requête reçue" dans la console.
-app.use((req, res, next) => {
-    console.log('Requête reçue !');
-    next(); // Pour terminer l'exécution du middleware et passer à l'éxécution du suivant.
-});
-
-// Middleware 2 : ajoute un code d'état 201 à la réponse.
-app.use((req, res, next) => {
-    res.status(201);
-    next();
-});
-
-// Middleware 3 : envoie la réponse JSON.
-app.use((req, res, next) => {
-    res.json({message: 'Votre requête a bien été reçue !'});
-    next();
-});
-
-// Middleware 4 : enregiste "Réponse envoyée avec succès !" dans la console.
-app.use((req, res) => {
-    console.log('Réponse envoyée avec succès !');
+// 1er argument : url visé par l'application (endpoint).
+app.use('/api/stuff', (req, res, next) => {
+    const stuff = [
+        {
+            _id: 'oeihfzeoi',
+            title: 'Mon premier objet',
+            description: 'Les infos de mon premier objet',
+            imageUrl: 'https://cdn.pixabay.com/photo/2019/06/11/18/56/camera-4267692_1280.jpg',
+            price: 4900, // en centimes.
+            userId: 'qsomihvqios', 
+        },
+        {
+            _id: 'oeihfzeomoihi',
+            title: 'Mon deuxième objet',
+            description: 'Les infos de mon deuxième objet',
+            imageUrl: 'https://cdn.pixabay.com/photo/2019/06/11/18/56/camera-4267692_1280.jpg',
+            price: 2900, // en centimes.
+            userId: 'qsomihvqios', 
+        },
+    ];
+    res.status(200).json(stuff);
 });
 
 module.exports = app;
