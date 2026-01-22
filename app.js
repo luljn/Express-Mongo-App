@@ -38,6 +38,13 @@ app.put('/api/stuff/:id', (req, res, next) => {
     .catch(error => res.status(400).json({ error }));
 });
 
+//On intercepte les requêtes 'delete' pour un objet en particulier.
+app.delete('/api/stuff/:id', (req, res, next) => {
+    Thing.deleteOne({ _id: req.params.id })
+    .then(() => res.status(200).json({ message: 'Objet supprimé !' }))
+    .catch(error => res.status(400).json({ error }));
+});
+
 // On intercepte les requêtes get pour un objet en particulier.
 // Le ':' spécifie que la partie de la route le contenant est dynamique.
 app.get('/api/stuff/:id', (req, res, next) => {
