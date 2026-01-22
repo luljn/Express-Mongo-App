@@ -11,4 +11,4 @@ const thingSchema = mongoose.Schema({
 
 // Export du schéma en tant que modèle Mongoose, 
 // appelé "Thing".
-module.exports(mongoose.model('Thing', thingSchema));
+module.exports = mongoose.model('Thing', thingSchema);

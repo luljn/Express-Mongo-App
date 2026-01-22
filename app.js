@@ -1,8 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const Thing = require('./models/Thing');
 
 const app = express();
-mongoose.connect('mongodb://127.0.0.1:27017/TP11')
+mongoose.connect('mongodb://127.0.0.1:27017/Test')
 .then(() => console.log('Connexion à MongoDB réussie !'))
 .catch(() => console.log('Connexion à MongoDB échouée !'));
 
@@ -21,11 +22,13 @@ app.use((req, res, next) => {
 
 // On intercepte les requêtes 'post' avec ce middleware.
 app.post('/api/stuff', (req, res, next) => {
-    console.log(req.body);
-    // Code 201 -> création de ressource.
-    res.status(201).json({
-        message: 'Objet crée !'
+    delete req.body._id;
+    const thing = new Thing({
+        ...req.body // ... -> opérateur 'spread', il va aller copier les champs de req.body et les détailler un par un.
     });
+    thing.save() // Enregistre l'objet dans la base.
+    .then(() => res.status(201).json({message: 'Objet enregistré !'}))
+    .catch(error => res.status(400).json({error})); 
 });
 
 // On intercepte les requêtes 'get' avec ce middleware.
