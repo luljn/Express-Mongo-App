@@ -31,6 +31,14 @@ app.post('/api/stuff', (req, res, next) => {
     .catch(error => res.status(400).json({error})); 
 });
 
+//On intercepte les requêtes 'put' pour un objet en particulier.
+app.put('/api/stuff/:id', (req, res, next) => {
+    Thing.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
+    .then(() => res.status(200).json({ message: 'Objet modifié !' }))
+    .catch(error => res.status(400).json({ error }));
+});
+
+// On intercepte les requêtes get pour un objet en particulier.
 // Le ':' spécifie que la partie de la route le contenant est dynamique.
 app.get('/api/stuff/:id', (req, res, next) => {
     Thing.findOne({ _id: req.params.id })
