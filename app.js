@@ -1,5 +1,10 @@
 const express = require('express');
+const mongoose = require('mongoose');
+
 const app = express();
+mongoose.connect('mongodb://127.0.0.1:27017/TP11')
+.then(() => console.log('Connexion à MongoDB réussie !'))
+.catch(() => console.log('Connexion à MongoDB échouée !'));
 
 // Intercepte toutes les requêtes qui ont un content-type application/json,
 // et met à disposition ce contenu sur l'objet requête dans 'req.body' .
