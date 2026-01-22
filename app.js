@@ -1,6 +1,10 @@
 const express = require('express');
 const app = express();
 
+// Intercepte toutes les requêtes qui ont un content-type application/json,
+// et met à disposition ce contenu sur l'objet requête dans 'req.body' .
+app.use(express.json());
+
 // Middleware pour résoudre les érreurs de CORS.
 // Middleware général(sera appliqué à toutes les requêtes envoyées au serveur).
 app.use((req, res, next) => {
@@ -10,8 +14,18 @@ app.use((req, res, next) => {
     next();
 });
 
+// On intercepte les requêtes 'post' avec ce middleware.
+app.post('/api/stuff', (req, res, next) => {
+    console.log(req.body);
+    // Code 201 -> création de ressource.
+    res.status(201).json({
+        message: 'Objet crée !'
+    });
+});
+
+// On intercepte les requêtes 'get' avec ce middleware.
 // 1er argument : url visé par l'application (endpoint).
-app.use('/api/stuff', (req, res, next) => {
+app.get('/api/stuff', (req, res, next) => {
     const stuff = [
         {
             _id: 'oeihfzeoi',
