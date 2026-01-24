@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
+const multer = require('../middleware/multer-config');
 const stuffController = require('../controllers/stuff');
 
 // On intercepte les requêtes 'get' avec ce middleware.
@@ -8,7 +9,7 @@ const stuffController = require('../controllers/stuff');
 router.get('/', auth, stuffController.getAllThings);
 
 // On intercepte les requêtes 'post' avec ce middleware.
-router.post('/', auth, stuffController.createThing); // On n'appelle pas la fontion createThing,
+router.post('/', auth, multer, stuffController.createThing); // On n'appelle pas la fontion createThing,
                                                // On l'applique à la route,
                                                // On ajoute le middleware d'authentification avant le gestionnaire de routes.
 
