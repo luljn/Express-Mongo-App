@@ -18,5 +18,26 @@ exports.signup = (req, res, next) => {
 
 // Pour connecter des utilisateurs exitants.
 exports.login = (req, res, next) => {
-
+    User.findOne({email: req.body.email}) // On vérifie si l'utilsateur associé au mail fourni existe dans la bdd.
+    .then(user => {
+        if(user === null){ // Si il n'existe pas : on renvoie une erreur.
+            res.status(401).json({message: 'Paire identifiant/mot de passe incorrecte'});
+        }
+        else{ // s'il existe.
+            bcrypt.compare(req.body.password, user.password) // On compare le mdp entré avec le hash enregistré.
+            .then(valid => {
+                if(!valid){ // Si le mdp n'est pas valide, on retourne une erreur.
+                    res.status(401).json({message: 'Paire identifiant/mot de passe incorrecte'});
+                }
+                else{
+                    res.status(200).json({ // S'il est valide, on renvoie un code 200; avec l'id de l'utilisateur et un token d'auth.
+                        userId: user._id,
+                        token: 'TOKEN'
+                    });
+                }
+            })
+            .catch(error => res.status(500).json({ error }));
+        }
+    })
+    .catch(error => res.status(500).json({ error }));
 };
