@@ -1,6 +1,19 @@
+const User = require('../models/User');
+const bcrypt = require('bcrypt');
+
 // Pour inscrire de nouveaux utilisateurs.
 exports.signup = (req, res, next) => {
-
+    bcrypt.hash(req.body.password, 10)
+    .then(hash => {
+        const user = new User({
+            email: req.baody.email,
+            password: hash
+        });
+        user.save()
+            .then(() => res.status(201).json({ message: 'Utilisateur crée !' }))
+            .catch(error => res.status(400).json({ error }));
+    })
+    .catch(error => res.status(500).json({ error }));
 };
 
 // Pour connecter des utilisateurs exitants.
