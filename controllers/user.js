@@ -1,17 +1,18 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 // Pour inscrire de nouveaux utilisateurs.
 exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
     .then(hash => {
         const user = new User({
-            email: req.baody.email,
+            email: req.body.email,
             password: hash
         });
         user.save()
-            .then(() => res.status(201).json({ message: 'Utilisateur crée !' }))
-            .catch(error => res.status(400).json({ error }));
+        .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
+        .catch(error => res.status(400).json({ error }));
     })
     .catch(error => res.status(500).json({ error }));
 };
@@ -32,7 +33,11 @@ exports.login = (req, res, next) => {
                 else{
                     res.status(200).json({ // S'il est valide, on renvoie un code 200; avec l'id de l'utilisateur et un token d'auth.
                         userId: user._id,
-                        token: 'TOKEN'
+                        token: jwt.sign(
+                            { userId: user._id },  // payload
+                            'RANDOM_TOKEN_SECRET', // clé-secrète
+                            { expiresIn: '24h' }   // durée de validité
+                        )
                     });
                 }
             })
