@@ -18,7 +18,7 @@ router.post('/', auth, multer, stuffController.createThing); // On n'appelle pas
 router.get('/:id', auth, stuffController.getThingById);
 
 //On intercepte les requêtes 'put' pour un objet en particulier.
-router.put('/:id', auth, stuffController.modifyThing);
+router.put('/:id', auth, multer, stuffController.modifyThing);
 
 //On intercepte les requêtes 'delete' pour un objet en particulier.
 router.delete('/:id', auth, stuffController.deleteThing);
