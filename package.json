@@ -17,7 +17,10 @@
   },
   "homepage": "https://github.com/luljn/Express-Mongo-App#readme",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "express": "^5.2.1",
-    "mongoose": "^9.1.5"
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^7.0.0",
+    "mongoose-unique-validator": "^4.0.1"
   }
 }
