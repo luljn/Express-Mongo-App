@@ -1,3 +1,4 @@
+const fs = require('fs');
 const Thing = require('../models/Thing');
 
 // Pour la création d'un objet.
@@ -38,9 +39,21 @@ exports.modifyThing = (req, res, next) => {
 
 // Pour supprimer un objet.
 exports.deleteThing = (req, res, next) => {
-    Thing.deleteOne({ _id: req.params.id })
-    .then(() => res.status(200).json({ message: 'Objet supprimé !' }))
-    .catch(error => res.status(400).json({ error }));
+    Thing.findOne({ _id: req.params.id })
+    .then(thing => {
+        if(thing.userId != req.auth.userId){ // On vérifie que la demande de suppression viens bien du créateur de l'objet.
+            res.status(401).json({ message: 'Non autorisé !' });
+        }
+        else{
+            const filename = thing.imageUrl.split('/images/')[1]; // On récup le nom du fichier.
+            fs.unlink(`images/${filename}`, () => { // 'unlink' pour supp le fichier sur le serveur de fichier.
+                Thing.deleteOne({_id: req.params.id}) // Delete l'objet dans la bdd.
+                .then(() => res.status(200).json({ message: 'Objet supprimé !' }))
+                .catch(error => res.status(400).json({ error }));
+            });
+        }
+    })
+    .catch(error => res.status(500).json({ error }));
 };
 
 // Pour récupérer un objet.
